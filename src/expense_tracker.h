@@ -24,7 +24,7 @@ public:
         return total_sum;
     }
 
-    double total_by_category(std::string categ) {
+    double total_by_category( std::string categ) {
         double total_sum = 0;
         for (size_t i = 0; i < expenses.size(); ++i) {
             if (expenses[i].get_category() == categ) {
@@ -46,15 +46,15 @@ public:
 
     void print_all() {
         std::cout << "-----------------------------Expenses-----------------------------\n";
-        for (size_t i = 0; i < expenses.size(); ++i) {
-            expenses[i].print();
+        for (auto& e : expenses) {
+            e.print();
         }
 
         std::cout << "Total expenses: " << total() << "₽" << "\n\n";
     }
 
     bool save_to_file(std::string filename) {
-        std::ofstream file(filename);
+        std::ofstream file(filename, std::ios::app);
         if (!file.is_open()) return false;
 
         for (auto& e : expenses) {
@@ -67,11 +67,11 @@ public:
         std::ifstream file(filename);
         std::string line, desc, cat, date, amount_str;
         double amount;
-        std::stringstream ss(line);
         expenses.clear();
         if (!file.is_open()) return false;
 
         while (std::getline(file, line)) {
+            std::stringstream ss(line);
             if (line.empty()) continue;
 
             std::getline(ss, date, ';');
@@ -86,7 +86,7 @@ public:
             }
 
             try {
-                expenses.emplace_back(date, desc, cat, amount);
+                expenses.emplace_back(desc, cat, date, amount);
             } catch (...) {}
         }
         return true;
