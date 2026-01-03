@@ -1,3 +1,3 @@
-# Expense tracker - app for tracking you expenses
+# Expense Tracker - app for tracking you expenses
 
-## Try it
+> I create this project to learn C++ classes, strings.
