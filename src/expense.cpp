@@ -1,11 +1,10 @@
-#include "expense.h"
-#include "expense_tracker.h"
-#include <vector>
+#include "expense.hpp"
+#include "expense_tracker.hpp"
 #include <iostream>
 
 int main() {
     Expense_tracker tracker;
-    std::string filename = "expenses.csv";
+    std::string filename = "../expenses.csv";
     tracker.load_from_file(filename);
     int option;
 

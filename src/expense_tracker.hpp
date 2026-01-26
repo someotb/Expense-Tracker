@@ -1,6 +1,6 @@
 #pragma once
 
-#include "expense.h"
+#include "expense.hpp"
 #include <fstream>
 #include <sstream>
 #include <vector>
@@ -57,7 +57,8 @@ public:
         std::ofstream file(filename, std::ios::app);
         if (!file.is_open()) return false;
 
-        for (auto& e : expenses) {
+        if (!expenses.empty()) {
+            auto e = expenses.back();
             file << e.get_date() << ";" << e.get_description() << ";" << e.get_category() << ";" << e.get_amount() << "\n";
         }
         return true;
