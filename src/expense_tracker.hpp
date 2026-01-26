@@ -13,7 +13,11 @@ public:
 
     void add_expense(Expense e) {
         expenses.push_back(std::move(e));
-        std::cout << "\nAdd expense: [" << e.get_date() << "] " << e.get_description() << " (" << e.get_category() << ") " << e.get_amount() << "₽\n" << std::endl;
+        std::cout << "\nAdd expense: " << e.get_index() << ". [" << e.get_date() << "] " << e.get_description() << " (" << e.get_category() << ") " << e.get_amount() << "₽\n" << std::endl;
+    }
+
+    void remove_expense(Expense e) {
+
     }
 
     double total() {
@@ -59,15 +63,16 @@ public:
 
         if (!expenses.empty()) {
             auto e = expenses.back();
-            file << e.get_date() << ";" << e.get_description() << ";" << e.get_category() << ";" << e.get_amount() << "\n";
+            file << e.get_index() << ";" << e.get_date() << ";" << e.get_description() << ";" << e.get_category() << ";" << e.get_amount() << "\n";
         }
         return true;
     }
 
     bool load_from_file(std::string filename) {
         std::ifstream file(filename);
-        std::string line, desc, cat, date, amount_str;
+        std::string line, desc, cat, date, amount_str, ind_str;
         double amount;
+        int ind;
         expenses.clear();
         if (!file.is_open()) return false;
 
@@ -75,6 +80,7 @@ public:
             std::stringstream ss(line);
             if (line.empty()) continue;
 
+            std::getline(ss, ind_str, ';');
             std::getline(ss, date, ';');
             std::getline(ss, desc, ';');
             std::getline(ss, cat, ';');
@@ -82,12 +88,13 @@ public:
 
             try {
                 amount = std::stod(amount_str);
+                ind = std::stod(ind_str);
             } catch (...) {
                 continue;
             }
 
             try {
-                expenses.emplace_back(desc, cat, date, amount);
+                expenses.emplace_back(ind, desc, cat, date, amount);
             } catch (...) {}
         }
         return true;

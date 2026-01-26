@@ -32,13 +32,14 @@ int main() {
             case(3): {
                 std::string desc, cat, date;
                 double amount;
+                int ind;
                 std::cout << "Description: "; std::cin.ignore(); std::getline(std::cin, desc);
                 std::cout << "Category: "; std::getline(std::cin, cat);
                 std::cout << "Date (YYYY:MM:DD): "; std::getline(std::cin, date);
                 std::cout << "Amount: "; std::cin >> amount;
 
                 try {
-                    tracker.add_expense(Expense(desc, cat, date, amount));
+                    tracker.add_expense(Expense(ind, desc, cat, date, amount));
                     tracker.save_to_file(filename);
                     std::cout << "Saved.\n";
                 } catch (const std::exception& e) {
